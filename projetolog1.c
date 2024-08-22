@@ -193,7 +193,7 @@ void mostrarDatas(){
         }
     }
     fclose(arquivo);
-    printf("\n\nArquivo 'datastreinos.txt' gerado com sucesso!Obrigado!\n\n");
+    printf("\n\nArquivo 'datastreinos.txt' gerado com sucesso! Obrigado!\n\n");
 }
 int main() {
     setlocale(LC_ALL, "pt_BR.UTF-8");
