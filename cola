@@ -1,6 +1,0 @@
-else if  ((mes == 4 || mes==6 || mes==9 || mes == 11) && dia > 30) { //verificação de meses com no máximo 30 dias//   
-        printf("\n\nDIA INVÁLIDO, ESSE MÊS TEM MENOS DE 31 DIAS!!!!!!!!!!");
-        getch();
-        system("cls");
-        return 1;
-}
