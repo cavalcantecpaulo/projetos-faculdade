@@ -1,5 +1,3 @@
-Aqui está o README.md atualizado com o nome correto da matéria:
-
 # 📚 1º Semestre - ADS  
 
 Este repositório contém projetos e códigos desenvolvidos durante o **primeiro semestre** do curso de **Análise e Desenvolvimento de Sistemas** no IFSP.  
