@@ -17,7 +17,7 @@ Os projetos aqui contidos abrangem as disciplinas de **Lógica de Programação*
 
 Para rodar os projetos localmente, você pode clonar este repositório para a sua máquina utilizando o comando:
 
-```bash
+
 git clone https://github.com/cavalcantecpaulo/projetos-faculdade.git
 ```
 
