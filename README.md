@@ -1,7 +1,7 @@
-```markdown
-# Projetos Faculdade
 
-Este repositório contém os projetos realizados durante o curso de **Análise e Desenvolvimento de Sistemas** no IFSP. O objetivo é organizar os estudos e registrar as soluções para os desafios e exercícios práticos ao longo do curso.
+# Projetos da Faculdade
+
+Este repositório contém os projetos realizados durante o curso de **Análise e Desenvolvimento de Sistemas** no IFSP. O objetivo do repositório é registrar meus proejtos para os desafios e exercícios propostos ao longo do curso.
 
 ## Descrição
 
@@ -13,16 +13,6 @@ Os projetos aqui contidos abrangem as disciplinas de **Lógica de Programação*
 - **Banco de Dados 1**: Projetos relacionados à disciplina de Banco de Dados 1.
 - Outros projetos serão adicionados conforme o curso avança.
 
-## Como Rodar os Projetos
-
-Para rodar os projetos localmente, você pode clonar este repositório para a sua máquina utilizando o comando:
-
-
-git clone https://github.com/cavalcantecpaulo/projetos-faculdade.git
-```
-
-Depois de clonar o repositório, navegue até o diretório do projeto desejado e siga as instruções específicas em cada pasta.
-
 ## Tecnologias Usadas
 
 - **Linguagens de Programação**: C.
@@ -30,6 +20,3 @@ Depois de clonar o repositório, navegue até o diretório do projeto desejado e
 ## Licença
 
 Este repositório está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-```
-
-Quando você copiar tudo, vai manter a estrutura de markdown e a formatação de código corretamente.
