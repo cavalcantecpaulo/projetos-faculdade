@@ -1,0 +1,78 @@
+# Arquivos de Build
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*.gz
+hs_err_pid*.log
+target/
+build/
+
+# IDEs - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDEs - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# IDEs - VS Code
+.vscode/
+
+# Dependências (geralmente gerenciadas por Maven ou Gradle)
+/lib/
+/libs/
+
+# Logs e Dados Gerados
+*.log
+*.log.*
+logs/
+temp/
+tmp/
+*.tmp
+
+# Arquivos de Configuração Locais (que não devem ir para o Git)
+# Ex: Arquivos com senhas, chaves de API, etc.
+src/main/resources/application*.properties.local
+src/main/resources/application*.yml.local
+*.properties
+*.yml
+*.env
+.env
+
+# Arquivos de Teste Gerados (se houver)
+/test-results/
+/surefire-reports/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Maven
+pom.xml.tag
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+/build/
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradle-enterprise/
+.kotlin/
+
+# Outros
+*.bak
+*.swp
+*~
