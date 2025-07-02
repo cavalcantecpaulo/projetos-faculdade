@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="src/images/FinanSee.png" type="image/png" />
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>FinanSee</title>
+</head>
+
+<body>
+    <header>
+        <nav class="cabecalho">
+            <div class="cabecalho-titulo">
+                <img src="src/images/FinanSee.png" alt="Logo FinanSee" class="logo">
+                <h1>FinanSee</h1>
+            </div>
+            <div class="cabecalho-links">
+                <a href="dashboard.html" class="links ativo">Dashboard</a>
+                <a href="lancamentos.html" class="links">Lançamentos</a>
+                <a href="relatorios.html" class="links">Relatórios</a>
+                <a href="limites.html" class="links">Limite de Gastos</a>
+            </div>
+            <div class="cabecalho-icons">
+                <a href="#" class="icons">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+                <a href="#" class="icons">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="secao-principal">
+            <div class="secao-principal-esquerda">
+                <div class="informacoes-gerais">
+                    <div class="informacoes-usuario">
+                        <h5>Bem Vindo,</h5>
+                        <h4>Miguel Magalhães!</h4>
+                    </div>
+                    <div class="informacoes-saldo">
+                        <h5>Saldo Geral</h5>
+                        <h5>R$ <strong class="valor">Valor</strong></h5>
+                    </div>
+                </div>
+                <div class="informacoes-valores">
+                    <div class="informacoes-valores-cards">
+                        <h5>Receita Mensal</h5>
+                        <h4 class="valor-receitas">+ Valor</h4>
+                    </div>
+                    <div class="informacoes-valores-cards">
+                        <h5>Despesa Mensal</h5>
+                        <h4 class="valor-despesas">- Valor</h4>
+                    </div>
+                    <div class="informacoes-valores-cards card-relatorio">
+                        <a href="relatorios.html">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <h5>Ver relatórios</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="linha-vertical"></div>
+            <div class="secao-principal-direita">
+                <h4>Acesso Rápido</h4>
+                <div class="botoes-acesso-rapido">
+                    <button id="nova-despesa" class="tooltip-despesa">
+                        <i class="fa-solid fa-circle-minus"></i>
+                        <span>DESPESA</span>
+                    </button>
+                    <button id="nova-receita" class="tooltip-receita">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span>RECEITA</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="secao-secundaria">
+            <div class="grafico-categorias">
+                <h3>Gastos por Categoria do Mês Atual</h3>
+                <canvas id="graficoDespesasCategoriasDashboard"></canvas>
+            </div>
+            <div class="maiores-gastos">
+                <h3>Maiores Gastos do Mês Atual</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaGastos">
+                        <!-- Preenchido pelo JS -->
+                      </tbody>
+                    </table>
+                    <button class="btn-ver-todos">Ver todos</button>
+                </table>
+            </div>
+        </div>
+        <div class="secao-tercenaria">
+            <div class="transacoes">
+                <h3>Últimas Transações</h3>
+                <ul id="listaTransacoes" class="lista-transacoes"></ul>
+            </div>
+            <div class="meta">
+                <button id="btnAdicionarMeta">Adicionar Meta</button>
+
+                <form id="formMeta" style="display: none; margin-top: 10px;">
+                    <input type="number" id="inputMeta" placeholder="Digite sua meta (R$)" required />
+                    <button type="submit">Salvar</button>
+                </form>
+
+                <div id="resultadoMeta" style="display: none; margin-top: 20px;">
+                    <div class="meta-info"></div>
+                    <div class="barra-progresso">
+                      <div class="progresso"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="rodape">
+        <p>&copy; 2025 FinanSee. Todos os direitos reservados.</p>
+    </footer>
+    <script src="./src/javascript/global.js"></script>
+    <script src="./src/javascript/navbar.js"></script>
+    <script src="./src/javascript/dashboard.js"></script>
+</body>
+
+</html>

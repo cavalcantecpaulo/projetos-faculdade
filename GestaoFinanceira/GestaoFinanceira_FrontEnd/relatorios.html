@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="src/images/FinanSee.png" type="image/png" />
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>FinanSee</title>
+</head>
+
+<body>
+    <header>
+        <nav class="cabecalho">
+            <div class="cabecalho-titulo">
+                <img src="src/images/FinanSee.png" alt="Logo FinanSee" class="logo">
+                <h1>FinanSee</h1>
+            </div>
+            <div class="cabecalho-links">
+                <a href="dashboard.html" class="links ativo">Dashboard</a>
+                <a href="lancamentos.html" class="links">Lançamentos</a>
+                <a href="relatorios.html" class="links">Relatórios</a>
+                <a href="limites.html" class="links">Limite de Gastos</a>
+            </div>
+            <div class="cabecalho-icons">
+                <a href="#" class="icons">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+                <a href="#" class="icons">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="secao-relatorios">
+            <div class="cabecalho-relatorio">
+                <h2>Relatórios</h2>
+                <div class="filtro-mes">
+                    <button id="mes-anterior" class="setas"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="mes-atual">Junho 2025</span>
+                    <button id="mes-posterior" class="setas"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <img src="/src/images/logo-roxo.png" class="logo">
+            </div>
+            <div class="selecao-relatorio">
+                <p class="tipo-relatorio ativo">Categorias</p>
+                <p class="tipo-relatorio">Entradas x Saídas</p>
+            </div>
+            <div class="secao-relatorios-conteudo">
+                <div class="grafico-container">
+                    <h3>Despesas por Categoria</h3>
+                    <canvas id="graficoDespesasCategorias"></canvas>
+                </div>
+                <div class="grafico-container">
+                    <h3>Receitas por Categoria</h3>
+                    <canvas id="graficoReceitasCategorias"></canvas>
+                </div>
+                <div class="grafico-container grafico-fluxo" style="display: none;">
+                    <h3>Entradas x Saídas</h3>
+                    <canvas id="graficoFluxoDiario"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="rodape">
+        <p>&copy; 2025 FinanSee. Todos os direitos reservados.</p>
+    </footer>
+    <script src="./src/javascript/global.js"></script>
+    <script src="./src/javascript/navbar.js"></script>
+    <script src="./src/javascript/relatorios.js"></script>
+</body>
+</html>
