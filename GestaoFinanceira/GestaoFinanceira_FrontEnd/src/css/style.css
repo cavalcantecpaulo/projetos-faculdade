@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
     --background-body: #e4e4e4e0;
@@ -8,47 +8,6 @@
     --icons-hover: #7c3aed;
     --textos: #222222;
     --detalhes-cards: #ecececee;
-    --roxo-claro: #dec8ff;
-    --roxo-escuro: #3b0764;
-    --roxo-medio: #9c69ee;
-    --roxo-muito-escuro: #240046;
-    --borda-clara: #895fc9d5;
-    --sombra-padrao: rgba(0, 0, 0, 0.15);
-    --sombra-hover: rgba(0, 0, 0, 0.2);
-    --verde-receita: #32d400;
-    --vermelho-despesa: #db0000;
-    --cinza-escuro-tooltip: #333;
-    --transparencia-icons-hover: #7c3aed7a;
-    --borda-input: #5B21B6;
-    --cor-placeholder-input: #3535359f;
-    --fundo-input: #ffffff;
-    --borda-tabela: #d8b4fe;
-    --roxo-claro-filtros: #d3bfe0;
-    --borda-limpar-filtros: #3b0764;
-    --fundo-hover-limpar-filtros: #c376ff4f;
-    --cor-mensagem-vazia: #888;
-    --fundo-item-lancamento: #dddddd73;
-    --sombra-item-lancamento: rgba(38, 31, 44, 0.2);
-    --cor-icone-xmark: #3c076456;
-    --cor-texto-selecao-relatorio: #64467a;
-    --borda-inferior-relatorio: #c2a9d667;
-    --borda-limite-padrao: #e0e0e0;
-    --sombra-limite-padrao: rgba(0, 0, 0, 0.05);
-    --borda-limite-excedido: #CC3333;
-    --sombra-limite-excedido: rgba(204, 51, 51, 0.2);
-    --cor-valores-limite: #666;
-    --fundo-barra-progresso: #e0e0e0;
-    --preenchimento-barra-progresso: #6B21A8;
-    --preenchimento-barra-excedido: #FF6666;
-    --alerta-excedido-fundo: #CC3333;
-    --cor-modal-fundo: #fefefe;
-    --borda-modal: #888;
-    --sombra-modal: rgba(0,0,0,0.3);
-    --cor-botao-fechar-modal: #aaa;
-    --cor-hover-botao-fechar-modal: #000;
-    --borda-input-modal: #ddd;
-    --fundo-botao-salvar-limites: #9a6bbe2a;
-    --fundo-hover-botao-salvar-limites: #9a6bbe70;
 }
 
 * {
@@ -60,15 +19,15 @@
 
 body {
     min-width: 100vh;
-    background-color: var(--roxo-claro);
-    color: var(--roxo-escuro);
+    background-color: #dec8ff;
+    color: #3b0764;
 }
 
 .rodape {
     text-align: center;
-    background-color: var(--roxo-medio);
+    background-color: #9c69ee;
     padding: 2%;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     font-weight: 600;
 }
 
@@ -77,7 +36,7 @@ body {
     justify-content: space-around;
     align-items: center;
     padding: 0.7%;
-    background-color: var(--roxo-muito-escuro);
+    background-color: #240046;
 }
 
 .logo {
@@ -89,7 +48,7 @@ body {
 .cabecalho-titulo {
     display: flex;
     gap: 10px;
-    color: var(--detalhes);
+    color: #f7f7f7;
 }
 
 .cabecalho-links {
@@ -102,13 +61,13 @@ body {
 
 .links {
     text-decoration: none;
-    color: var(--links);
+    color: #f7f7f7b0;
     padding: 0 10px;
     position: relative;
 }
 
 .links.ativo {
-    color: var(--detalhes);
+    color: #f7f7f7;
     font-weight: bold;
 }
 
@@ -119,7 +78,7 @@ body {
     left: 0;
     right: 0;
     height: 5px;
-    background-color: var(--detalhes);
+    background-color: #f7f7f7;
 }
 
 .links:hover:not(.ativo) {
@@ -132,7 +91,7 @@ body {
 }
 
 .icons {
-    color: var(--detalhes);
+    color: #f7f7f7;
     width: 40px;
     height: 40px;
     display: flex;
@@ -142,7 +101,7 @@ body {
 }
 
 .icons:hover {
-    background-color: var(--transparencia-icons-hover);
+    background-color: #7c3aed7a;
     border-radius: 50%;
 }
 
@@ -153,10 +112,10 @@ body {
     align-items: center;
     gap: 30px;
     width: 85%;
-    background-color: var(--detalhes);
+    background-color: #f7f7f7;
     border-radius: 10px;
-    border: 1px solid var(--borda-clara);
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
+    border: 1px solid #895fc9d5;
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .secao-principal-esquerda {
@@ -170,7 +129,7 @@ body {
 .informacoes-gerais {
     display: flex;
     justify-content: space-around;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     padding: 3% 3% 1.5% 3%;
 }
 
@@ -192,29 +151,29 @@ body {
 .linha-vertical {
     width: 1px;
     height: 130px;
-    background-color: var(--borda-clara);
+    background-color: #895fc9d5;
     margin: 0 15px;
 }
 
 .informacoes-valores {
     display: flex;
     justify-content: space-between;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     padding: 0 0 3% 6%;
 }
 
 .informacoes-valores-cards {
     text-align: center;
-    border: 1px solid var(--detalhes-cards);
+    border: 1px solid #ecececee;
     padding: 1.5% 5%;
     border-radius: 10px;
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .card-relatorio:hover {
     cursor: pointer;
-    background-color: var(--detalhes-cards);
-    box-shadow: 2px 8px 10px var(--sombra-hover);
+    background-color: #ecececee;
+    box-shadow: 2px 8px 10px rgba(0, 0, 0, 0.2);
 }
 
 .informacoes-valores-cards h5 {
@@ -223,11 +182,11 @@ body {
 
 .informacoes-valores-cards a {
     text-decoration: none;
-    color: var(--roxo-escuro);
+    color: #3b0764;
 }
 
 .valor-receitas {
-    color: var(--verde-receita);
+    color: #32d400;
 }
 
 .tooltip-despesa, .tooltip-receita, .tooltip-lancamento {
@@ -241,8 +200,8 @@ body {
     bottom: 110%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--cinza-escuro-tooltip);
-    color: var(--detalhes);
+    background-color: #333;
+    color: #f7f7f7;
     padding: 6px 8px;
     border-radius: 6px;
     white-space: nowrap;
@@ -252,7 +211,7 @@ body {
     z-index: 10;
     font-size: 0.85em;
 }
- 
+  
 .tooltip-despesa:hover::after, .tooltip-receita:hover::after, .tooltip-lancamento:hover::after {
     opacity: 1;
     visibility: visible;
@@ -264,8 +223,8 @@ body {
     bottom: 110%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--cinza-escuro-tooltip);
-    color: var(--detalhes);
+    background-color: #333;
+    color: #f7f7f7;
     padding: 6px 8px;
     border-radius: 6px;
     white-space: nowrap;
@@ -282,8 +241,8 @@ body {
     bottom: 110%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--cinza-escuro-tooltip);
-    color: var(--detalhes);
+    background-color: #333;
+    color: #f7f7f7;
     padding: 6px 8px;
     border-radius: 6px;
     white-space: nowrap;
@@ -295,7 +254,7 @@ body {
 }
 
 .valor-despesas {
-    color: var(--vermelho-despesa);
+    color: #db0000;
 }
 
 .secao-principal-direita {
@@ -309,7 +268,7 @@ body {
 .secao-principal-direita h4 {
     font-size: 18px;
     margin-bottom: 2%;
-    color: var(--roxo-escuro);
+    color: #3b0764;
 }
 
 .botoes-acesso-rapido {
@@ -326,45 +285,45 @@ body {
     padding: 8px 15px;
     height: auto;
     width: 110px;
-    background-color: var(--detalhes);
-    border: 1px solid var(--detalhes-cards);
+    background-color: #f7f7f7;
+    border: 1px solid #ecececee;
     border-radius: 10px;
     cursor: pointer;
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 #nova-despesa:hover, #nova-receita:hover {
-    background-color: var(--detalhes-cards);
-    box-shadow: 2px 8px 10px var(--sombra-hover);
+    background-color: #ecececee;
+    box-shadow: 2px 8px 10px rgba(0, 0, 0, 0.2);
 }
 
 #nova-despesa i {
     font-size: 32px;
-    color: var(--vermelho-despesa);
+    color: #db0000;
 }
 
 #nova-receita i {
     font-size: 32px;
-    color: var(--verde-receita);
+    color: #32d400;
 }
 
 #nova-despesa span, #nova-receita span {
     font-size: 16px;
     font-weight: 400;
-    color: var(--roxo-escuro);
+    color: #3b0764;
 }
 
 .input-custom {
-    border: 1px solid var(--borda-input);
+    border: 1px solid #5B21B6;
     border-radius: 4px;
     padding: 10px;
     font-size: 16px;
-    color: var(--cor-placeholder-input);
-    background-color: var(--fundo-input);
+    color: #3535359f;
+    background-color: #ffffff;
 }
- 
+  
 .input-custom::placeholder {
-    color: var(--cor-placeholder-input);
+    color: #3535359f;
 }
 
 .campo {
@@ -379,12 +338,12 @@ body {
     margin-bottom: -14px;
     margin-top: 12px;
 }
- 
+  
 .linha {
     display: flex;
     justify-content: space-between;
 }
- 
+  
 .pequeno {
     width: 73%;
 }
@@ -417,12 +376,12 @@ body {
     padding: 10px;
     width: 450px;
     height: 500px;
-    background-color: var(--detalhes);
+    background-color: #f7f7f7;
     border-radius: 10px;
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
     text-align: center;
-    color: var(--roxo-escuro);
-    border: 1px solid var(--borda-clara);
+    color: #3b0764;
+    border: 1px solid #895fc9d5;
     position: relative;
 }
 
@@ -439,34 +398,34 @@ body {
 }
 
 .maiores-gastos {
-    background-color: var(--detalhes);
+    background-color: #f7f7f7;
     padding: 15px;
     width: 55%;
     border-radius: 10px;
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
-    color: var(--roxo-escuro);
-    border: 1px solid var(--borda-clara);
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
+    color: #3b0764;
+    border: 1px solid #895fc9d5;
 }
- 
+  
 .maiores-gastos table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 10px;
 }
- 
+  
 .maiores-gastos th, .maiores-gastos td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid var(--borda-tabela);
+    border-bottom: 1px solid #d8b4fe;
 }
- 
+  
 .maiores-gastos th {
-    background-color: var(--detalhes-cards);
+    background-color: #ecececee;
 }
- 
+  
 .btn-ver-todos {
-    background-color: var(--roxo-muito-escuro);
-    color: var(--detalhes);
+    background-color: #240046;
+    color: #f7f7f7;
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
@@ -474,9 +433,9 @@ body {
     display: block;
     margin: 0 auto;
 }
- 
+  
 .btn-ver-todos:hover {
-    background-color: #6b21a8; 
+    background-color: #6b21a8;
     font-weight: bold;
 }
 
@@ -491,12 +450,12 @@ body {
 .transacoes {
     max-height: 300px;
     overflow-y: auto;
-    border: 1px solid var(--borda-clara);
+    border: 1px solid #895fc9d5;
     border-radius: 10px;
     padding: 10px 14px;
-    background-color: var(--detalhes);
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
-    color: var(--roxo-escuro);
+    background-color: #f7f7f7;
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
+    color: #3b0764;
     width: 50%;
 }
 
@@ -511,7 +470,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid var(--borda-clara);
+    border-bottom: 1px solid #895fc9d5;
     font-size: 14px;
 }
 
@@ -529,35 +488,35 @@ body {
 }
 
 .transacao-receita {
-    color: var(--verde-receita);
+    color: #32d400;
 }
 
 .transacao-despesa {
-    color: var(--vermelho-despesa);
+    color: #db0000;
 }
 
 
 .meta {
-    background-color: var(--detalhes);
-    border: 1px solid var(--borda-clara);
+    background-color: #f7f7f7;
+    border: 1px solid #895fc9d5;
     border-radius: 10px;
     padding: 16px;
     width: 45%;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     margin-bottom: 20px;
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
 }
- 
+  
 .meta input {
     padding: 10px 20px;
     margin-right: 24px;
     border-radius: 8px;
     border: 1px solid #dddddd;
 }
- 
+  
 .meta button {
-    background-color: var(--roxo-muito-escuro);
-    color: var(--detalhes);
+    background-color: #240046;
+    color: #f7f7f7;
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -569,7 +528,7 @@ body {
     background-color: #6b21a8;
     font-weight: bold;
 }
- 
+  
 .barra-progresso {
     background-color: #6b21a865;
     height: 24px;
@@ -577,7 +536,7 @@ body {
     overflow: hidden;
     margin-top: 16px;
 }
- 
+  
 .progresso {
     height: 100%;
     background-color: #6b21a8;
@@ -586,10 +545,10 @@ body {
 }
 
 .secao-lancamentos, .secao-relatorios, .secao-limites {
-    background-color: var(--detalhes);
+    background-color: #f7f7f7;
     border-radius: 10px;
-    border: 1px solid var(--borda-clara);
-    box-shadow: 2px 6px 10px var(--sombra-padrao);
+    border: 1px solid #895fc9d5;
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.15);
     width: 85%;
     display: flex;
     flex-direction: column;
@@ -614,7 +573,7 @@ body {
 #novo-lancamento{
     border: none;
     font-size: 1.5em;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -640,7 +599,7 @@ body {
 
 .setas {
     font-size: 20px;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -652,7 +611,7 @@ body {
 
 .filtros {
     width: 90%;
-    background-color: var(--roxo-claro-filtros);
+    background-color: #d3bfe0;
     padding: 0.7%;
     border-radius: 30px;
     margin: 1% 0 3%;
@@ -666,20 +625,20 @@ body {
     border: none;
     background-color: transparent;
     font-size: 1em;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     text-align: center;
 }
 
 #btnLimparFiltros {
     background-color: transparent;
-    border: 1px solid var(--borda-limpar-filtros);
+    border: 1px solid #3b0764;
     padding: 0.5% 1%;
     border-radius: 30px;
-    color: var(--roxo-escuro);
+    color: #3b0764;
 }
 
 #btnLimparFiltros:hover {
-    background-color: var(--fundo-hover-limpar-filtros);
+    background-color: #c376ff4f;
 }
 
 .lista-lancamentos {
@@ -688,26 +647,26 @@ body {
 }
 
 .mensagem-vazia {
-    color: var(--cor-mensagem-vazia);
+    color: #888;
     font-size: 20px;
     margin-top: 6%;
 }
 
 .fa-circle-exclamation {
     font-size: 2em;
-    color: var(--cor-mensagem-vazia);
+    color: #888;
 }
 
 .titulo-personalizado {
-    color: var(--roxo-escuro);
+    color: #3b0764;
 }
 
 .botao-confirmar-personalizado {
-    background-color: var(--verde-receita);
+    background-color: #32d400;
 }
 
 .botao-negar-personalizado {
-    background-color: var(--vermelho-despesa);
+    background-color: #db0000;
 }
 
 .item-lancamento {
@@ -716,9 +675,9 @@ body {
     align-items: center;
     padding: 8px 20px;
     margin-bottom: 2%;
-    background-color: var(--fundo-item-lancamento);
+    background-color: #dddddd73;
     border-radius: 8px;
-    box-shadow: 0 2px 5px var(--sombra-item-lancamento);
+    box-shadow: 0 2px 5px rgba(38, 31, 44, 0.2);
 }
 
 .item-info {
@@ -733,15 +692,15 @@ body {
 }
 
 .fa-xmark {
-    color: var(--cor-icone-xmark);
+    color: #3c076456;
 }
 
 .valor.receita {
-    color: var(--verde-receita); 
+    color: #32d400; 
 }
 
 .valor.despesa {
-    color: var(--vermelho-despesa); 
+    color: #db0000; 
 }
 
 .selecao-relatorio {
@@ -751,18 +710,18 @@ body {
     margin: 3% 0;
     padding: 0 0 0.5em 3em;
     gap: 4em;
-    border-bottom: 1px solid var(--borda-inferior-relatorio);
+    border-bottom: 1px solid #c2a9d667;
 }
 
 .tipo-relatorio {
     font-size: 1.25em;
-    color: var(--cor-texto-selecao-relatorio);
+    color: #64467a;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
 
 .selecao-relatorio .ativo {
-    color: var(--roxo-escuro);
+    color: #3b0764;
     font-weight: 500;
 }
 
@@ -772,22 +731,22 @@ body {
 
 .secao-relatorios-conteudo {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: wrap; /* Permite que os gráficos quebrem linha */
+    justify-content: center; /* Centraliza os gráficos quando há espaço */
     text-align: center;
-    gap: 5em;
+    gap: 5em; /* Espaço entre os gráficos */
     width: 100%;
 }
 
 .grafico-container {
-    min-width: 400px;
+    min-width: 400px; /* Largura mínima para evitar gráficos muito pequenos */
     max-width: 500px;
-    height: 450px;
+    height: 450px; /* Altura fixa para os containers dos gráficos, incluindo o título e a legenda */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    align-items: center; /* Centraliza o canvas dentro do container */
+    justify-content: center; /* Centraliza verticalmente o canvas */
+    position: relative; /* Para posicionamento absoluto de elementos internos, se necessário */
     margin-bottom: 7%;
     padding-bottom: 80px;
 }
@@ -807,14 +766,14 @@ body {
 
 .grafico-container canvas {
     max-width: 100%;
-    max-height: calc(100% - 60px);
-    width: auto !important;
-    height: auto !important;
+    max-height: calc(100% - 60px); /* Ajusta a altura máxima do canvas, considerando o h3 e padding */
+    width: auto !important; /* Sobrescreve inline styles do Chart.js */
+    height: auto !important; /* Sobrescreve inline styles do Chart.js */
 }
 
 .grafico-fluxo {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1000px; /* Ajuste como desejar */
     margin: 0 auto;
     height: 550px;
     display: flex;
@@ -829,30 +788,33 @@ body {
     max-width: 100%;
 }
 
+/* Contêiner da lista de limites (onde o JS vai injetar) */
 .limites-lista {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    gap: 1.5em;
+    width: 100%; /* Ocupa toda a largura do .secao-limites */
+    gap: 1.5em; /* Espaço entre cada item de categoria */
     margin: 2% 0 5%;
     align-items: center;
 }
 
+/* Item individual da Categoria de Limite (será gerado pelo JS) */
 .limite-item {
     background-color: transparent;
-    border: 1px solid var(--borda-limite-padrao);
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 15px 20px;
-    box-shadow: 0 2px 5px var(--sombra-limite-padrao);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Informações em cima da barra */
     gap: 10px;
     width: 90%;
 }
 
+/* Estilo para item que excedeu o limite */
 .limite-item.limite-excedido {
-    border-color: var(--borda-limite-excedido);
-    box-shadow: 0 2px 8px var(--sombra-limite-excedido);
+    border-color: #CC3333; /* Borda vermelha */
+    box-shadow: 0 2px 8px rgba(204, 51, 51, 0.2);
 }
 
 .limite-info {
@@ -861,7 +823,7 @@ body {
     align-items: baseline;
     font-size: 1.1em;
     font-weight: 500;
-    color: var(--roxo-escuro);
+    color: #3b0764;
 }
 
 .limite-info .categoria-nome {
@@ -870,7 +832,7 @@ body {
 
 .limite-info .limite-valores {
     font-weight: 400;
-    color: var(--cor-valores-limite);
+    color: #666;
 }
 
 .limite-barra-container {
@@ -879,25 +841,27 @@ body {
     align-items: center;
 }
 
+/* Barra de Progresso */
 .barra-progresso {
-    flex-grow: 0.95;
-    background-color: var(--fundo-barra-progresso);
+    flex-grow: 0.95; /* Faz a barra ocupar o máximo de espaço */
+    background-color: #e0e0e0;
     border-radius: 10px;
     height: 20px;
-    overflow: hidden;
-    position: relative;
+    overflow: hidden; /* Garante que o preenchimento não saia da borda */
+    position: relative; /* Para posicionar o alerta de excedido */
 }
 
 .progresso-preenchido {
     height: 100%;
-    background-color: var(--preenchimento-barra-progresso);
-    width: 0;
+    background-color: #6B21A8; /* Cor de progresso padrão */
+    width: 0; /* JS vai definir a largura */
     border-radius: 10px;
-    transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out; /* Animação suave */
 }
 
+/* Estilo para barra que excedeu o limite */
 .limite-item.limite-excedido .progresso-preenchido {
-    background-color: var(--preenchimento-barra-excedido);
+    background-color: #FF6666; /* Vermelho mais suave */
 }
 
 .alerta-excedido {
@@ -905,7 +869,7 @@ body {
     top: 0;
     right: 0;
     height: 100%;
-    background-color: var(--alerta-excedido-fundo);
+    background-color: #CC3333; /* Vermelho forte para o alerta */
     color: white;
     font-weight: bold;
     font-size: 0.8em;
@@ -918,12 +882,13 @@ body {
 .btn-editar-limite {
     background: none;
     border: none;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     font-size: 1.6em;
     cursor: pointer;
     margin-top: 1%;
 }
 
+/* Estilos do Modal (pop-up) - Reutilizados da solução anterior */
 .modal {
     display: none;
     position: fixed;
@@ -938,26 +903,26 @@ body {
 }
 
 .modal-content {
-    background-color: var(--cor-modal-fundo);
+    background-color: #fefefe;
     margin: 5% auto;
     padding: 30px;
-    border: 1px solid var(--borda-modal);
+    border: 1px solid #888;
     border-radius: 10px;
     width: 90%;
     max-width: 500px;
-    box-shadow: 0 5px 15px var(--sombra-modal);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     position: relative;
 }
 
 .modal-content h3 {
-    color: var(--roxo-escuro);
+    color: #3b0764;
     font-size: 1.8em;
     margin-bottom: 20px;
     text-align: center;
 }
 
 .close-button {
-    color: var(--cor-botao-fechar-modal);
+    color: #aaa;
     float: right;
     font-size: 32px;
     font-weight: bold;
@@ -969,7 +934,7 @@ body {
 
 .close-button:hover,
 .close-button:focus {
-    color: var(--cor-hover-botao-fechar-modal);
+    color: #000;
     text-decoration: none;
 }
 
@@ -982,14 +947,14 @@ body {
 
 .form-group-limite label {
     flex: 1;
-    color: var(--roxo-escuro);
+    color: #3b0764;
     font-weight: 500;
 }
 
 .form-group-limite input[type="number"] {
     flex: 2;
     padding: 8px 12px;
-    border: 1px solid var(--borda-input-modal);
+    border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
     width: 100%;
@@ -997,21 +962,35 @@ body {
 }
 
 .mensagem-sem-limites {
-    color: var(--cor-valores-limite);
+    color: #666;
     font-style: italic;
     text-align: center;
     margin-top: 20px;
 }
 
 #btnSalvarLimites {
-    background-color: var(--fundo-botao-salvar-limites);
-    border: 1px solid var(--roxo-escuro);
-    color: var(--roxo-escuro);
+    background-color: #9a6bbe2a;
+    border: 1px solid #3b0764;
+    color: #3b0764;
     padding: 0.5% 2%;
     border-radius: 20px;
     cursor: pointer;
 }
 
 #btnSalvarLimites:hover {
-    background-color: var(--fundo-hover-botao-salvar-limites);
+    background-color: #9a6bbe70;
+}
+
+#btnAddPrimeiroLimite {
+    background-color: #9a6bbe2a;
+    border: 1px solid #3b0764;
+    color: #3b0764;
+    padding: 0.5% 2%;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#btnAddPrimeiroLimite:hover {
+    background-color: #9a6bbe70;
 }
