@@ -1,13 +1,13 @@
 let transacoesParaFiltro = JSON.parse(localStorage.getItem('minhasTransacoes')) || [
-    { tipo: "receita", valor: 500, data: "2025-06-05", categoria: "Salário", descricao: "Salário do mês" },
-    { tipo: "despesa", valor: 200, data: "2025-06-06", categoria: "Mercado", descricao: "Compras do mercado" },
-    { tipo: "despesa", valor: 80, data: "2025-06-07", categoria: "Transporte", descricao: "Combustível" },
-    { tipo: "receita", valor: 300, data: "2025-05-28", categoria: "Salário", descricao: "Adiantamento" },
-    { tipo: "despesa", valor: 150, data: "2025-06-10", categoria: "Mercado", descricao: "Feira da semana" },
-    { tipo: "despesa", valor: 80, data: "2025-04-30", categoria: "Lazer", descricao: "Cinema" },
-    { tipo: "receita", valor: 100, data: "2025-05-09", categoria: "Outros", descricao: "Presente" },
-    { tipo: "despesa", valor: 520.00, data: "2025-05-04", categoria: "Alimentação", descricao: "Supermercado grande" },
-    { tipo: "despesa", valor: 300.00, data: "2025-05-02", categoria: "Transporte", descricao: "Manutenção do carro" },
+    { id: 1, tipo: "receita", valor: 500, data: "2025-06-05", categoria: "Salário", descricao: "Salário do mês" },
+    { id: 2, tipo: "despesa", valor: 200, data: "2025-06-06", categoria: "Mercado", descricao: "Compras do mercado" },
+    { id: 3, tipo: "despesa", valor: 80, data: "2025-06-07", category: "Transporte", descricao: "Combustível" },
+    { id: 4, tipo: "receita", valor: 300, data: "2025-05-28", categoria: "Salário", descricao: "Adiantamento" },
+    { id: 5, tipo: "despesa", valor: 150, data: "2025-06-10", categoria: "Mercado", descricao: "Feira da semana" },
+    { id: 6, tipo: "despesa", valor: 80, data: "2025-04-30", categoria: "Lazer", descricao: "Cinema" },
+    { id: 7, tipo: "receita", valor: 100, data: "2025-05-09", categoria: "Outros", descricao: "Presente" },
+    { id: 8, tipo: "despesa", valor: 520.00, data: "2025-05-04", categoria: "Alimentação", descricao: "Supermercado grande" },
+    { id: 9, tipo: "despesa", valor: 300.00, data: "2025-05-02", categoria: "Transporte", descricao: "Manutenção do carro" },
 ];
 
 let dataReferencia = new Date();
@@ -17,15 +17,12 @@ let limitesGastos = JSON.parse(localStorage.getItem('limitesGastos')) || {};
 function salvarTransacoes() {
     localStorage.setItem('minhasTransacoes', JSON.stringify(transacoesParaFiltro));
     document.dispatchEvent(new CustomEvent('transacoesAtualizadas'));
-    console.log('Transações salvas e evento "transacoesAtualizadas" disparado.');
 }
 
 function salvarLimitesGastos() {
     localStorage.setItem('limitesGastos', JSON.stringify(limitesGastos));
-    document.dispatchEvent(new CustomEvent('limitesAtualizados'));
-    console.log('Limites de gastos salvos e evento "limitesAtualizados" disparado.');
+    document.dispatchEvent(new CustomEvent('limitesAtualizadas'));
 }
-
 
 function abrirModalReceita() {
     Swal.fire({
@@ -82,15 +79,17 @@ function abrirModalReceita() {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log("Nova Receita Adicionada:", result.value);
-            transacoesParaFiltro.push({
+            const novaTransacao = {
+                id: Date.now(),
                 tipo: result.value.tipo,
                 valor: parseFloat(result.value.valor),
                 data: result.value.data,
                 categoria: result.value.categoria,
                 descricao: result.value.descricao
-            });
+            };
+            transacoesParaFiltro.push(novaTransacao);
             salvarTransacoes();
+            Swal.fire('Sucesso!', 'Transação adicionada com sucesso!', 'success');
         }
     });
 }
@@ -154,17 +153,24 @@ function abrirModalDespesa() {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log("Nova Despesa Adicionada:", result.value);
-            transacoesParaFiltro.push({
+            const novaTransacao = {
+                id: Date.now(),
                 tipo: result.value.tipo,
                 valor: parseFloat(result.value.valor),
                 data: result.value.data,
                 categoria: result.value.categoria,
                 descricao: result.value.descricao
-            });
+            };
+            transacoesParaFiltro.push(novaTransacao);
             salvarTransacoes();
+            Swal.fire('Sucesso!', 'Transação adicionada com sucesso!', 'success');
         }
     });
+}
+
+function excluirTransacaoLocal(idTransacao) {
+    transacoesParaFiltro = transacoesParaFiltro.filter(t => t.id != idTransacao);
+    salvarTransacoes();
 }
 
 function filtrarPorMes(transacoes, dataRef) {
@@ -217,7 +223,6 @@ if (spanMesAtual && btnAnterior && btnPosterior) {
         document.dispatchEvent(new CustomEvent('mesReferenciaGlobalAlterado', {
             detail: { novaDataReferencia: new Date(dataReferencia) }
         }));
-        console.log('Evento "mesReferenciaGlobalAlterado" disparado:', dataReferencia);
     }
 
     btnAnterior.addEventListener("click", () => {
@@ -231,7 +236,7 @@ if (spanMesAtual && btnAnterior && btnPosterior) {
     btnPosterior.addEventListener("click", () => {
         dataReferencia.setMonth(dataReferencia.getMonth() + 1);
         atualizarMesExibicao();
-        if (typeof atualizarLancamentos === 'function') { actualizarLancamentos(); }
+        if (typeof atualizarLancamentos === 'function') { atualizarLancamentos(); }
         if (typeof atualizarRelatorios === 'function') { atualizarRelatorios(); }
         if (typeof atualizarDashboard === 'function') { atualizarDashboard(); }
     });
@@ -254,5 +259,6 @@ window.dataReferencia = dataReferencia;
 window.limitesGastos = limitesGastos;
 window.salvarTransacoes = salvarTransacoes;
 window.salvarLimitesGastos = salvarLimitesGastos;
+window.excluirTransacaoLocal = excluirTransacaoLocal;
 window.filtrarPorMes = filtrarPorMes;
 window.gerarCoresAleatorias = gerarCoresAleatorias;

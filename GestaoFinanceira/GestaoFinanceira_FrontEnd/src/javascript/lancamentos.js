@@ -105,9 +105,66 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="categoria">${t.categoria}</span>
                 </div>
                 <span class="descricao">${t.descricao}</span>
-                <div class="valor ${t.tipo}">R$ ${t.valor.toFixed(2)}</div>
+                <div class="exclui-item">
+                    <div class="valor ${t.tipo}">R$ ${t.valor.toFixed(2)}</div>
+                    <i class="fa-solid fa-xmark" data-id="${t.id}" data-tipo="${t.tipo}" data-descricao="${t.descricao}"></i>
+                </div>
             `;
             listaLancamentos.appendChild(item);
+        });
+
+        listaLancamentos.querySelectorAll('.fa-xmark').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                const idTransacao = event.target.dataset.id;
+                const tipoTransacao = event.target.dataset.tipo;
+                const descricaoTransacao = event.target.dataset.descricao;
+
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: `Você deseja excluir esta ${tipoTransacao}: "${descricaoTransacao}"?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Excluir',
+                    cancelButtonText: 'Cancelar',
+                    background: '#ffffff',
+                    customClass: {
+                        popup: 'popup-caixa',
+                        title: 'titulo-personalizado',
+                        confirmButton: 'botao-negar-personalizado', 
+                        cancelButton: 'botao-confirmar-personalizado' 
+                    }
+                }).then(async (result) => { 
+                    if (result.isConfirmed) {
+                        if (window.excluirTransacaoLocal) {
+                            try {
+                                await window.excluirTransacaoLocal(idTransacao);
+                                Swal.fire(
+                                    'Excluído!',
+                                    `A ${tipoTransacao} foi excluída com sucesso.`,
+                                    'success'
+                                );
+                                window.atualizarLancamentos();
+                            } catch (error) {
+                                console.error('Erro ao excluir transação:', error);
+                                Swal.fire(
+                                    'Erro!',
+                                    `Ocorreu um erro ao excluir a ${tipoTransacao}.`,
+                                    'error'
+                                );
+                            }
+                        } else {
+                            console.error("Função 'excluirTransacaoBackend' não definida.");
+                            Swal.fire(
+                                'Erro!',
+                                'A função de exclusão não está disponível.',
+                                'error'
+                            );
+                        }
+                    }
+                });
+            });
         });
     }
 

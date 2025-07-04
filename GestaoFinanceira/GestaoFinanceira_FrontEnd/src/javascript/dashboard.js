@@ -3,6 +3,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const ctxGraficoDashboard = document.getElementById("graficoDespesasCategoriasDashboard");
     let graficoDashboardDespesasInstance = null;
 
+    const saldoGeralElement = document.getElementById("saldoGeral");
+    const receitaMensalElement = document.getElementById("receitaMensal");
+    const despesaMensalElement = document.getElementById("despesaMensal");
+
+    function atualizarValoresFinanceiros(transacoesDoMes) {
+        let totalReceitasMes = 0;
+        let totalDespesasMes = 0;
+
+        transacoesDoMes.forEach(t => {
+            if (t.tipo === 'receita') {
+                totalReceitasMes += t.valor;
+            } else if (t.tipo === 'despesa') {
+                totalDespesasMes += t.valor;
+            }
+        });
+
+        let saldoGeralMes = totalReceitasMes - totalDespesasMes;
+
+        if (saldoGeralElement) {
+            saldoGeralElement.textContent = saldoGeralMes.toFixed(2);
+            if (saldoGeralMes < 0) {
+                saldoGeralElement.classList.add('negativo');
+                saldoGeralElement.classList.remove('positivo');
+            } else {
+                saldoGeralElement.classList.add('positivo');
+                saldoGeralElement.classList.remove('negativo');
+            }
+        }
+        if (receitaMensalElement) {
+            receitaMensalElement.textContent = `+ ${totalReceitasMes.toFixed(2)}`;
+        }
+        if (despesaMensalElement) {
+            despesaMensalElement.textContent = `- ${totalDespesasMes.toFixed(2)}`;
+        }
+    }
+
+
     function atualizarGraficoDashboardDespesas(transacoesMesAtual) {
         if (!ctxGraficoDashboard) return;
 
@@ -70,8 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
         tbodyGastos.innerHTML = "";
 
         const despesasOrdenadas = transacoesDoMes.filter(t => t.tipo === 'despesa')
-                                             .sort((a, b) => b.valor - a.valor)
-                                             .slice(0, 5);
+            .sort((a, b) => b.valor - a.valor)
+            .slice(0, 5);
 
         if (despesasOrdenadas.length === 0) {
             tbodyGastos.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhuma despesa para exibir.</td></tr>`;
@@ -234,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             localStorage.setItem(META_KEY, meta.toString());
             atualizarExibicaoMeta(meta);
-            
+
             resultadoMeta.style.display = "block";
             formMeta.style.display = "none";
         });
@@ -252,10 +289,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.atualizarDashboard = function() {
         console.log("Atualizando Dashboard...");
-        const transacoesMesAtual = window.filtrarPorMes ? window.filtrarPorMes(window.transacoesParaFiltro, new Date()) : [];
+
+        if (typeof window.carregarTransacoes === 'function') {
+            window.carregarTransacoes();
+        }
+
+        const transacoesMesAtual = window.filtrarPorMes ? window.filtrarPorMes(window.transacoesParaFiltro, window.dataReferencia) : [];
+
+        atualizarValoresFinanceiros(transacoesMesAtual);
+
         atualizarGraficoDashboardDespesas(transacoesMesAtual);
+
         atualizarTabelaMaioresGastos(transacoesMesAtual);
-        
+
         const ultimos5Dias = window.transacoesParaFiltro ? filtrarUltimos5Dias(window.transacoesParaFiltro) : [];
         mostrarTransacoesRecentes(ultimos5Dias);
 
@@ -263,10 +309,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (metaSalva) {
             const metaValor = parseFloat(metaSalva);
             if (!isNaN(metaValor) && metaValor > 0) {
-                if (resultadoMeta.style.display === "block" || localStorage.getItem(META_KEY)) {
+                if (resultadoMeta && (resultadoMeta.style.display === "block" || localStorage.getItem(META_KEY))) {
                     atualizarExibicaoMeta(metaValor);
-                    formMeta.style.display = "none";
-                    resultadoMeta.style.display = "block";
+                    if (formMeta) formMeta.style.display = "none";
+                    if (resultadoMeta) resultadoMeta.style.display = "block";
                 }
             }
         }
@@ -276,6 +322,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener('transacoesAtualizadas', () => {
         console.log('Evento transacoesAtualizadas recebido em dashboard.js. Atualizando Dashboard...');
+        window.atualizarDashboard();
+    });
+
+    document.addEventListener('mesReferenciaGlobalAlterado', () => {
+        console.log('Evento mesReferenciaGlobalAlterado recebido em dashboard.js. Atualizando Dashboard...');
         window.atualizarDashboard();
     });
 });
