@@ -1,18 +1,54 @@
-let transacoesParaFiltro = JSON.parse(localStorage.getItem('minhasTransacoes')) || [
-    { id: 1, tipo: "receita", valor: 500, data: "2025-06-05", categoria: "Salário", descricao: "Salário do mês" },
-    { id: 2, tipo: "despesa", valor: 200, data: "2025-06-06", categoria: "Mercado", descricao: "Compras do mercado" },
-    { id: 3, tipo: "despesa", valor: 80, data: "2025-06-07", category: "Transporte", descricao: "Combustível" },
-    { id: 4, tipo: "receita", valor: 300, data: "2025-05-28", categoria: "Salário", descricao: "Adiantamento" },
-    { id: 5, tipo: "despesa", valor: 150, data: "2025-06-10", categoria: "Mercado", descricao: "Feira da semana" },
-    { id: 6, tipo: "despesa", valor: 80, data: "2025-04-30", categoria: "Lazer", descricao: "Cinema" },
-    { id: 7, tipo: "receita", valor: 100, data: "2025-05-09", categoria: "Outros", descricao: "Presente" },
-    { id: 8, tipo: "despesa", valor: 520.00, data: "2025-05-04", categoria: "Alimentação", descricao: "Supermercado grande" },
-    { id: 9, tipo: "despesa", valor: 300.00, data: "2025-05-02", categoria: "Transporte", descricao: "Manutenção do carro" },
-];
+import { buscarTransacoes, salvarTransacao, excluirTransacao, atualizarTransacao } from './api.js';
+
+const mapaCategoria = {
+    "Alimentação": 1,
+    "Transporte": 2,
+    "Moradia": 3,
+    "Saúde": 4,
+    "Educação": 5,
+    "Lazer": 6,
+    "Compras": 7,
+    "Contas": 8,
+    "Mercado": 9,
+    "Empréstimos": 10,
+    "Investimentos": 11,
+    "Salário": 12,
+    "Outros": 13
+};
+
+const mapaTipoTransacao = {
+    "receita": 1,
+    "despesa": 2
+};
+
+let transacoesParaFiltro = [];
 
 let dataReferencia = new Date();
 
 let limitesGastos = JSON.parse(localStorage.getItem('limitesGastos')) || {};
+
+async function carregarTransacoesDoBanco() {
+  try {
+    const transacoes = await buscarTransacoes();
+
+    // // Ajuste para garantir que tipoTransacao.nome esteja sempre presente
+    // transacoes.forEach(t => {
+    //   if (!t.tipoTransacao?.nome && t.tipo) {
+    //     t.tipoTransacao = { nome: t.tipo };
+    //   }
+    // });
+
+    transacoesParaFiltro = transacoes;
+    window.transacoesParaFiltro = transacoes;
+
+    console.log("Transações carregadas (ajustadas):", transacoes);
+    document.dispatchEvent(new CustomEvent('transacoesAtualizadas'));
+  } catch (e) {
+    console.error("Erro ao carregar transações:", e);
+    Swal.fire('Erro!', 'Não foi possível carregar as transações.', 'error');
+  }
+}
+
 
 function salvarTransacoes() {
     localStorage.setItem('minhasTransacoes', JSON.stringify(transacoesParaFiltro));
@@ -32,21 +68,19 @@ function abrirModalReceita() {
                 <label for="descricao">Descrição</label>
                 <input type="text" id="descricao" class="swal2-input input-custom">
             </div>
-
             <div class="linha">
                 <div class="campo">
                     <label for="valor">Valor</label>
-                    <input type="number" id="valor" class="swal2-input input-custom pequeno">
+                    <input type="number" id="valor" class="swal2-input input-custom pequeno" step="0.01" min="0">
                 </div>
                 <div class="campo">
-                    <label for="data">Data</label>
+                    <label for="data_transacao">Data</label>
                     <input type="date" id="data" class="swal2-input input-custom pequeno">
                 </div>
             </div>
-
             <div class="campo">
                 <label for="categoria">Categoria</label>
-                <select id="categoria" class="swal2-input input-custom">
+                <select id="categoria" class="swal2-input input-custom" required>
                     <option value="" disabled selected>Buscar por Categoria...</option>
                     <option value="Empréstimos">Empréstimos</option>
                     <option value="Investimentos">Investimentos</option>
@@ -65,31 +99,37 @@ function abrirModalReceita() {
         },
         focusConfirm: false,
         preConfirm: () => {
-            const descricao = document.getElementById('descricao').value;
-            const valor = document.getElementById('valor').value;
+            const descricao = document.getElementById('descricao').value.trim();
+            const valor = parseFloat(document.getElementById('valor').value);
             const data = document.getElementById('data').value;
             const categoria = document.getElementById('categoria').value;
 
-            if (!descricao || !valor || !data || !categoria) {
-                Swal.showValidationMessage('Por favor, preencha todos os campos!');
+            if (!descricao || isNaN(valor) || valor <= 0 || !data || !categoria) {
+                Swal.showValidationMessage('Por favor, preencha todos os campos corretamente!');
                 return false;
             }
 
-            return {tipo: "receita", descricao, valor, data, categoria };
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const novaTransacao = {
-                id: Date.now(),
-                tipo: result.value.tipo,
-                valor: parseFloat(result.value.valor),
-                data: result.value.data,
-                categoria: result.value.categoria,
-                descricao: result.value.descricao
+            return {
+                tipo: "receita",
+                descricao,
+                valor,
+                data_transacao: data,
+                categoria: { id_categoria: mapaCategoria[categoria] },
+                tipoTransacao: { id_tipo_transacao: mapaTipoTransacao["receita"] },
+                usuario: { id_usuario: 1 }
             };
-            transacoesParaFiltro.push(novaTransacao);
-            salvarTransacoes();
-            Swal.fire('Sucesso!', 'Transação adicionada com sucesso!', 'success');
+        }
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                console.log("Objeto Enviado:", result.value);
+                await salvarTransacao(result.value);
+                await carregarTransacoesDoBanco();
+                Swal.fire('Sucesso!', 'Receita salva com sucesso!', 'success');
+            } catch (err) {
+                Swal.fire('Erro!', 'Não foi possível salvar a receita.', 'error');
+                console.error(err);
+            }
         }
     });
 }
@@ -105,16 +145,16 @@ function abrirModalDespesa() {
             <div class="linha">
                 <div class="campo">
                     <label for="valor">Valor</label>
-                    <input type="number" id="valor" class="swal2-input input-custom pequeno">
+                    <input type="number" id="valor" class="swal2-input input-custom pequeno" step="0.01" min="0">
                 </div>
                 <div class="campo">
-                    <label for="data">Data</label>
+                    <label for="data_transacao">Data</label>
                     <input type="date" id="data" class="swal2-input input-custom pequeno">
                 </div>
             </div>
             <div class="campo">
                 <label for="categoria">Categoria</label>
-                <select id="categoria" class="swal2-input input-custom">
+                <select id="categoria" class="swal2-input input-custom" required>
                     <option value="" disabled selected>Buscar por Categoria...</option>
                     <option value="Alimentação">Alimentação</option>
                     <option value="Transporte">Transporte</option>
@@ -139,51 +179,83 @@ function abrirModalDespesa() {
         },
         focusConfirm: false,
         preConfirm: () => {
-            const descricao = document.getElementById('descricao').value;
-            const valor = document.getElementById('valor').value;
+            const descricao = document.getElementById('descricao').value.trim();
+            const valor = parseFloat(document.getElementById('valor').value);
             const data = document.getElementById('data').value;
             const categoria = document.getElementById('categoria').value;
 
-            if (!descricao || !valor || !data || !categoria) {
-                Swal.showValidationMessage('Por favor, preencha todos os campos!');
+            if (!descricao || isNaN(valor) || valor <= 0 || !data || !categoria) {
+                Swal.showValidationMessage('Por favor, preencha todos os campos corretamente!');
                 return false;
             }
 
-            return { tipo: "despesa", descricao, valor, data, categoria };
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const novaTransacao = {
-                id: Date.now(),
-                tipo: result.value.tipo,
-                valor: parseFloat(result.value.valor),
-                data: result.value.data,
-                categoria: result.value.categoria,
-                descricao: result.value.descricao
+            return {
+                tipo: "despesa",
+                descricao,
+                valor,
+                data_transacao: data,
+                categoria: { id_categoria: mapaCategoria[categoria] },
+                tipoTransacao: { id_tipo_transacao: mapaTipoTransacao["despesa"] },
+                usuario: { id_usuario: 1 }
             };
-            transacoesParaFiltro.push(novaTransacao);
-            salvarTransacoes();
-            Swal.fire('Sucesso!', 'Transação adicionada com sucesso!', 'success');
+        }
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                console.log("Objeto enviado:", result.value);
+                await salvarTransacao(result.value);
+                await carregarTransacoesDoBanco();
+                Swal.fire('Sucesso!', 'Despesa salva com sucesso!', 'success');
+            } catch (err) {
+                Swal.fire('Erro!', 'Não foi possível salvar a despesa.', 'error');
+                console.error(err);
+            }
         }
     });
 }
 
-function excluirTransacaoLocal(idTransacao) {
-    transacoesParaFiltro = transacoesParaFiltro.filter(t => t.id != idTransacao);
-    salvarTransacoes();
+async function editarTransacao(transacao) {
+    try {
+        await atualizarTransacao(transacao);
+        await carregarTransacoesDoBanco();
+        Swal.fire('Atualizado!', 'Transação editada com sucesso.', 'success');
+    } catch (error) {
+        Swal.fire('Erro!', 'Falha ao atualizar.', 'error');
+    }
+}
+
+async function excluirTransacaoDoBanco(id) {
+    try {
+        await excluirTransacao(id);
+        await carregarTransacoesDoBanco();
+        Swal.fire('Excluído!', 'Transação removida com sucesso.', 'success');
+    } catch (error) {
+        Swal.fire('Erro!', 'Não foi possível excluir.', 'error');
+    }
 }
 
 function filtrarPorMes(transacoes, dataRef) {
     const mes = dataRef.getMonth();
     const ano = dataRef.getFullYear();
 
-    return transacoes.filter(t => {
-        const [anoT, mesT, diaT] = t.data.split("-").map(Number);
+    console.log("👉 Mês e ano de referência:", mes + 1, ano); // +1 porque getMonth() retorna 0-indexado
+    console.log("👉 Total de transações recebidas:", transacoes.length);
+
+    const filtradas = transacoes.filter(t => {
+        const [anoT, mesT, diaT] = t.data_transacao.split("-").map(Number);
         const dataTransacao = new Date(anoT, mesT - 1, diaT);
 
-        return dataTransacao.getFullYear() === ano && dataTransacao.getMonth() === mes;
+        const corresponde = dataTransacao.getFullYear() === ano && dataTransacao.getMonth() === mes;
+
+        console.log(`• Transação: ${t.descricao} | Data: ${t.data_transacao} | Mês ${mesT} === ${mes + 1}? ${corresponde}`);
+
+        return corresponde;
     });
+
+    console.log(" Transações filtradas:", filtradas);
+    return filtradas;
 }
+
 
 function gerarCoresAleatorias(numCores) {
     const cores = [];
@@ -228,17 +300,17 @@ if (spanMesAtual && btnAnterior && btnPosterior) {
     btnAnterior.addEventListener("click", () => {
         dataReferencia.setMonth(dataReferencia.getMonth() - 1);
         atualizarMesExibicao();
-        if (typeof atualizarLancamentos === 'function') { atualizarLancamentos(); }
-        if (typeof atualizarRelatorios === 'function') { atualizarRelatorios(); }
-        if (typeof atualizarDashboard === 'function') { atualizarDashboard(); }
+        if (typeof atualizarLancamentos === 'function') atualizarLancamentos();
+        if (typeof atualizarRelatorios === 'function') atualizarRelatorios();
+        if (typeof atualizarDashboard === 'function') atualizarDashboard();
     });
 
     btnPosterior.addEventListener("click", () => {
         dataReferencia.setMonth(dataReferencia.getMonth() + 1);
         atualizarMesExibicao();
-        if (typeof atualizarLancamentos === 'function') { atualizarLancamentos(); }
-        if (typeof atualizarRelatorios === 'function') { atualizarRelatorios(); }
-        if (typeof atualizarDashboard === 'function') { atualizarDashboard(); }
+        if (typeof atualizarLancamentos === 'function') atualizarLancamentos();
+        if (typeof atualizarRelatorios === 'function') atualizarRelatorios();
+        if (typeof atualizarDashboard === 'function') atualizarDashboard();
     });
 
     document.addEventListener("DOMContentLoaded", atualizarMesExibicao);
@@ -259,6 +331,12 @@ window.dataReferencia = dataReferencia;
 window.limitesGastos = limitesGastos;
 window.salvarTransacoes = salvarTransacoes;
 window.salvarLimitesGastos = salvarLimitesGastos;
-window.excluirTransacaoLocal = excluirTransacaoLocal;
+window.excluirTransacaoLocal = excluirTransacaoDoBanco;
 window.filtrarPorMes = filtrarPorMes;
 window.gerarCoresAleatorias = gerarCoresAleatorias;
+window.carregarTransacoesDoBanco = carregarTransacoesDoBanco;
+window.editarTransacao = editarTransacao;
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await carregarTransacoesDoBanco();
+});

@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/tipo")
+@CrossOrigin(origins = "*")
 public class TipoTransacaoController {
 
     @Autowired
