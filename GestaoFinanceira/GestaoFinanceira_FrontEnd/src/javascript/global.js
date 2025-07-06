@@ -1,4 +1,4 @@
-import { buscarTransacoes, salvarTransacao, excluirTransacao, atualizarTransacao } from './api.js';
+import { buscarTransacoes, salvarTransacao, excluirTransacao, atualizarTransacao, buscarLimites, salvarLimites as salvarLimitesAPI } from './api.js';
 
 const mapaCategoria = {
     "Alimentação": 1,
@@ -25,40 +25,82 @@ let transacoesParaFiltro = [];
 
 let dataReferencia = new Date();
 
-let limitesGastos = JSON.parse(localStorage.getItem('limitesGastos')) || {};
+// AQUI: limitesGastos não será mais carregado do localStorage, mas sim da API.
+// A inicialização agora será um objeto vazio, e o carregamento será assíncrono.
+let limitesGastos = {}; 
 
 async function carregarTransacoesDoBanco() {
-  try {
-    const transacoes = await buscarTransacoes();
+    try {
+        const transacoes = await buscarTransacoes();
 
-    // // Ajuste para garantir que tipoTransacao.nome esteja sempre presente
-    // transacoes.forEach(t => {
-    //   if (!t.tipoTransacao?.nome && t.tipo) {
-    //     t.tipoTransacao = { nome: t.tipo };
-    //   }
-    // });
+        transacoesParaFiltro = transacoes;
+        window.transacoesParaFiltro = transacoes;
 
-    transacoesParaFiltro = transacoes;
-    window.transacoesParaFiltro = transacoes;
-
-    console.log("Transações carregadas (ajustadas):", transacoes);
-    document.dispatchEvent(new CustomEvent('transacoesAtualizadas'));
-  } catch (e) {
-    console.error("Erro ao carregar transações:", e);
-    Swal.fire('Erro!', 'Não foi possível carregar as transações.', 'error');
-  }
+        console.log("Transações carregadas (ajustadas):", transacoes);
+        document.dispatchEvent(new CustomEvent('transacoesAtualizadas'));
+    } catch (e) {
+        console.error("Erro ao carregar transações:", e);
+        Swal.fire('Erro!', 'Não foi possível carregar as transações.', 'error');
+    }
 }
 
-
-function salvarTransacoes() {
-    localStorage.setItem('minhasTransacoes', JSON.stringify(transacoesParaFiltro));
-    document.dispatchEvent(new CustomEvent('transacoesAtualizadas'));
+// NOVA FUNÇÃO: carregarLimitesGastos do backend
+async function carregarLimitesGastosDoBanco() {
+    try {
+        console.log("Tentando carregar limites do backend...");
+        const response = await buscarLimites(); // Chama a função da API
+        if (response.sucesso) {
+            // A API deve retornar um objeto onde a chave é o nome da categoria e o valor é o limite.
+            // Ex: { "Alimentação": 500, "Transporte": 200 }
+            window.limitesGastos = response.dados || {}; 
+            limitesGastos = window.limitesGastos; // Atualiza a variável interna também
+            console.log("Limites carregados com sucesso:", window.limitesGastos);
+            document.dispatchEvent(new CustomEvent('limitesAtualizados')); // Dispara evento para renderizar
+        } else {
+            console.error("Erro ao carregar limites do backend:", response.mensagem);
+            window.limitesGastos = {}; // Garante que seja um objeto válido mesmo em caso de erro
+            limitesGastos = {};
+            document.dispatchEvent(new CustomEvent('limitesAtualizados')); // Dispara mesmo com erro para garantir consistência
+        }
+    } catch (error) {
+        console.error("Erro na comunicação com a API ao carregar limites:", error);
+        window.limitesGastos = {};
+        limitesGastos = {};
+        document.dispatchEvent(new CustomEvent('limitesAtualizados')); // Dispara mesmo com erro
+    }
 }
 
-function salvarLimitesGastos() {
-    localStorage.setItem('limitesGastos', JSON.stringify(limitesGastos));
-    document.dispatchEvent(new CustomEvent('limitesAtualizadas'));
+// ALTERADA: Função salvarLimitesGastos para usar a API
+async function salvarLimitesGastos(novosLimites) {
+    try {
+        console.log("Iniciando salvamento de limites via API:", novosLimites);
+        // Chama a função da API para enviar os limites
+        const response = await salvarLimitesAPI(novosLimites);
+
+        if (response.sucesso) {
+            // Atualiza o objeto global de limites com os dados recém-salvos
+            // É importante que window.limitesGastos reflita o estado mais recente
+            window.limitesGastos = { ...novosLimites }; 
+            limitesGastos = window.limitesGastos; // Atualiza a variável interna também
+            console.log("Limites salvos com sucesso no backend e atualizados globalmente.");
+            document.dispatchEvent(new CustomEvent('limitesAtualizados')); // Notifica outros componentes
+            Swal.fire('Sucesso!', 'Limites salvos com sucesso!', 'success');
+        } else {
+            console.error("Erro ao salvar limites no backend:", response.mensagem);
+            Swal.fire('Erro!', `Não foi possível salvar os limites: ${response.mensagem}`, 'error');
+        }
+    } catch (error) {
+        console.error("Erro na comunicação com a API ao salvar limites:", error);
+        Swal.fire('Erro!', 'Ocorreu um erro de rede ao salvar os limites.', 'error');
+    }
 }
+
+// Removida: A função salvarTransacoes() não é mais necessária, pois a persistência é via API
+// function salvarTransacoes() {
+//     localStorage.setItem('minhasTransacoes', JSON.stringify(transacoesParaFiltro));
+//     document.dispatchEvent(new CustomEvent('transacoesAtualizadas'));
+// }
+
 
 function abrirModalReceita() {
     Swal.fire({
@@ -328,15 +370,18 @@ if (btnReceita) {
 
 window.transacoesParaFiltro = transacoesParaFiltro;
 window.dataReferencia = dataReferencia;
-window.limitesGastos = limitesGastos;
-window.salvarTransacoes = salvarTransacoes;
-window.salvarLimitesGastos = salvarLimitesGastos;
+window.limitesGastos = limitesGastos; // Inicializado como {}, será preenchido por carregarLimitesGastosDoBanco
+// window.salvarTransacoes = salvarTransacoes; // Removida, não é mais necessária com API
+window.salvarLimitesGastos = salvarLimitesGastos; // Aponta para a nova função assíncrona
 window.excluirTransacaoLocal = excluirTransacaoDoBanco;
 window.filtrarPorMes = filtrarPorMes;
 window.gerarCoresAleatorias = gerarCoresAleatorias;
 window.carregarTransacoesDoBanco = carregarTransacoesDoBanco;
 window.editarTransacao = editarTransacao;
+window.carregarLimitesGastosDoBanco = carregarLimitesGastosDoBanco; // Torna global
 
 document.addEventListener("DOMContentLoaded", async () => {
+    // Carrega transações e limites no início
     await carregarTransacoesDoBanco();
+    await carregarLimitesGastosDoBanco(); // Adicionado para carregar limites
 });
